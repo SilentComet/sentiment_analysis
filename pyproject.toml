@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "sentiment-analysis"
+version = "1.0.0"
+description = "Master-level Document Sentiment & Intent Analyzer — Production Grade"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.0",
+    "numpy>=1.24",
+    "tenacity>=8.2",
+    "anthropic>=0.25",
+]
+
+[project.optional-dependencies]
+slm = [
+    "transformers>=4.35",
+    "torch>=2.0",
+]
+nlp = [
+    "spacy>=3.6",
+    "tiktoken>=0.5",
+]
+cache = [
+    "redis>=5.0",
+]
+dev = [
+    "pytest>=7.4",
+    "pytest-asyncio>=0.21",
+]
+all = [
+    "sentiment-analysis[slm,nlp,cache,dev]",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
