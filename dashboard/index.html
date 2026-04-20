@@ -3,47 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Master-level Document Sentiment & Intent Analyzer — Real-time NLP dashboard with aspect-based analysis, narrative arc visualization, and chain-of-evidence grounding.">
-    <title>Sentiment Analyzer — AI Dashboard</title>
+    <meta name="description" content="Document Sentiment & Intent Analyzer — Real-time NLP analysis with aspect-based sentiment, narrative arc tracking, and chain-of-evidence grounding.">
+    <title>Sentiment Analyzer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- ═══════════ HEADER ═══════════ -->
+
     <header id="app-header">
         <div class="header-inner">
             <div class="logo-group">
-                <div class="logo-icon">
-                    <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" stroke="url(#g1)" stroke-width="2.5"/><path d="M12 24c2-6 6-10 8-10s6 4 8 10" stroke="url(#g1)" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="18" r="2" fill="#a78bfa"/><circle cx="24" cy="18" r="2" fill="#38bdf8"/><defs><linearGradient id="g1" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs></svg>
-                </div>
+                <div class="logo-mark">SA</div>
                 <div>
                     <h1>Sentiment Analyzer</h1>
-                    <p class="subtitle">Master-Level Document Analysis · 6-Layer Architecture</p>
+                    <p class="tagline">6-Layer NLP Pipeline</p>
                 </div>
             </div>
             <div class="header-badges">
-                <span class="badge badge-purple" id="badge-route">SLM + LLM</span>
-                <span class="badge badge-blue" id="badge-status">Ready</span>
+                <span class="badge badge-engine" id="badge-route">SLM + LLM</span>
+                <span class="badge badge-status" id="badge-status">Idle</span>
             </div>
         </div>
     </header>
 
     <main id="app-main">
-        <!-- ═══════════ UPLOAD SECTION ═══════════ -->
-        <section id="upload-section" class="glass-card">
+
+        <!-- ── Upload ── -->
+        <section id="upload-section" class="card">
             <div id="drop-zone" class="drop-zone">
                 <div class="drop-icon">
-                    <svg viewBox="0 0 48 48" fill="none"><path d="M24 4v28m0 0l-8-8m8 8l8-8" stroke="url(#ug)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 34v6a4 4 0 004 4h24a4 4 0 004-4v-6" stroke="url(#ug)" stroke-width="2.5" stroke-linecap="round"/><defs><linearGradient id="ug" x1="8" y1="4" x2="40" y2="44"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs></svg>
+                    <svg viewBox="0 0 32 32" fill="none"><path d="M16 4v20m0 0l-6-6m6 6l6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/><path d="M6 26h20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/></svg>
                 </div>
-                <h2>Drop your document here</h2>
-                <p>or paste text below · supports .txt, .json, multi-page PDF text</p>
+                <h2>Drop document or paste below</h2>
+                <p>.txt · .json · multi-page PDF text</p>
             </div>
-            <textarea id="doc-input" placeholder="Paste your document text here…" spellcheck="false"></textarea>
+            <textarea id="doc-input" placeholder="Paste document text…" spellcheck="false"></textarea>
             <div class="upload-actions">
                 <button id="btn-analyze" class="btn-primary" disabled>
-                    <span class="btn-text">Analyze Document</span>
+                    <span class="btn-text">Analyze</span>
                     <span class="btn-loader" hidden></span>
                 </button>
                 <button id="btn-sample" class="btn-ghost">Load Sample</button>
@@ -51,80 +50,73 @@
             </div>
             <div id="progress-bar" class="progress-track" hidden>
                 <div class="progress-fill"></div>
-                <span class="progress-label">Analyzing…</span>
             </div>
+            <div class="progress-label" id="progress-label" hidden></div>
         </section>
 
-        <!-- ═══════════ RESULTS (hidden until analysis) ═══════════ -->
+        <!-- ── Results ── -->
         <div id="results-container" hidden>
 
-            <!-- ── ROW 1: Score + Metadata ── -->
             <div class="grid-row grid-2">
-                <section id="score-card" class="glass-card score-card">
-                    <h3 class="card-title">Overall Sentiment</h3>
+                <section id="score-card" class="card score-card" data-enter style="animation-delay:0ms">
+                    <div class="card-title">Overall Sentiment</div>
                     <div class="gauge-wrapper">
-                        <canvas id="gauge-canvas" width="260" height="150"></canvas>
-                        <div class="gauge-value" id="gauge-value">0.00</div>
-                        <div class="gauge-label" id="gauge-label">—</div>
+                        <canvas id="gauge-canvas" width="240" height="140"></canvas>
+                        <div class="gauge-value" id="gauge-value">—</div>
                     </div>
+                    <div class="gauge-label" id="gauge-label"></div>
                     <div class="score-pills" id="score-pills"></div>
                 </section>
 
-                <section id="meta-card" class="glass-card">
-                    <h3 class="card-title">Document Metadata</h3>
+                <section id="meta-card" class="card" data-enter style="animation-delay:60ms">
+                    <div class="card-title">Metadata</div>
                     <div class="meta-grid" id="meta-grid"></div>
                 </section>
             </div>
 
-            <!-- ── ROW 2: Trajectory + Emotion Wheel ── -->
             <div class="grid-row grid-2">
-                <section id="trajectory-card" class="glass-card">
-                    <h3 class="card-title">Sentiment Trajectory</h3>
+                <section id="trajectory-card" class="card" data-enter style="animation-delay:120ms">
+                    <div class="card-title">Sentiment Trajectory</div>
                     <div class="chart-legend" id="traj-legend"></div>
                     <canvas id="trajectory-canvas" height="220"></canvas>
                     <div class="arc-badges" id="arc-badges"></div>
                 </section>
 
-                <section id="emotion-card" class="glass-card">
-                    <h3 class="card-title">Emotion Profile</h3>
-                    <canvas id="emotion-canvas" width="300" height="300"></canvas>
+                <section id="emotion-card" class="card" data-enter style="animation-delay:180ms">
+                    <div class="card-title">Emotion Profile</div>
+                    <canvas id="emotion-canvas" width="280" height="280"></canvas>
                     <div class="emotion-dominant" id="emotion-dominant"></div>
                 </section>
             </div>
 
-            <!-- ── ROW 3: Aspects ── -->
-            <section id="aspects-card" class="glass-card">
-                <h3 class="card-title">Aspect-Based Analysis</h3>
+            <section id="aspects-card" class="card" data-enter style="animation-delay:240ms">
+                <div class="card-title">Aspect-Based Analysis</div>
                 <div class="aspects-grid" id="aspects-grid"></div>
             </section>
 
-            <!-- ── ROW 4: Evidence + Intent ── -->
             <div class="grid-row grid-2">
-                <section id="evidence-card" class="glass-card">
-                    <h3 class="card-title">Chain of Evidence</h3>
+                <section id="evidence-card" class="card" data-enter style="animation-delay:300ms">
+                    <div class="card-title">Chain of Evidence</div>
                     <div id="evidence-content"></div>
                 </section>
 
-                <section id="intent-card" class="glass-card">
-                    <h3 class="card-title">Intent & Cultural Signals</h3>
+                <section id="intent-card" class="card" data-enter style="animation-delay:360ms">
+                    <div class="card-title">Intent & Cultural Signals</div>
                     <div id="intent-content"></div>
                 </section>
             </div>
 
-            <!-- ── ROW 5: Chunks Accordion ── -->
-            <section id="chunks-card" class="glass-card">
-                <h3 class="card-title">Chunk-Level Detail <span class="chunk-count" id="chunk-count"></span></h3>
+            <section id="chunks-card" class="card" data-enter style="animation-delay:420ms">
+                <div class="card-title">Chunk Detail<span class="chunk-count" id="chunk-count"></span></div>
                 <div id="chunks-accordion"></div>
             </section>
 
-            <!-- ── ROW 6: Confidence ── -->
-            <section id="confidence-card" class="glass-card">
-                <h3 class="card-title">Confidence Metrics</h3>
+            <section id="confidence-card" class="card" data-enter style="animation-delay:480ms">
+                <div class="card-title">Confidence</div>
                 <div class="confidence-bars" id="confidence-bars"></div>
             </section>
 
-            <!-- ── RAW JSON Toggle ── -->
-            <section id="raw-json-card" class="glass-card">
+            <section id="raw-json-card" class="card" data-enter style="animation-delay:540ms">
                 <button id="btn-toggle-json" class="btn-ghost">Show Raw JSON</button>
                 <pre id="raw-json" hidden></pre>
             </section>
@@ -132,7 +124,7 @@
     </main>
 
     <footer id="app-footer">
-        <p>Sentiment Analyzer v1.0 · 6-Layer Architecture · 14 Modules · 30 Classes</p>
+        Sentiment Analyzer v1.0 — 6 Layers · 14 Modules · 30 Classes
     </footer>
 
     <script src="app.js"></script>
