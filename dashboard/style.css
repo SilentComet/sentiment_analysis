@@ -378,7 +378,7 @@ body {
 /* ── Emotion Canvas ─────────────────────────────── */
 #emotion-card { text-align: center; }
 
-#emotion-canvas { max-width: 260px; margin: 0 auto; }
+#emotion-canvas { max-width: 300px; margin: 0 auto; }
 
 .emotion-dominant {
     margin-top: var(--s4);

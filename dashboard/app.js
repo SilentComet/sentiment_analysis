@@ -139,8 +139,16 @@ Outlook: Going forward, we expect robust tailwinds from our AI product line. In 
 
     // ── Gauge ────────────────────────────────────────────────────────────
     function drawGauge(score, label) {
-        const c = $("gauge-canvas"), ctx = c.getContext("2d");
-        const W = c.width, H = c.height, cx = W / 2, cy = H - 6, R = 90;
+        const c = $("gauge-canvas");
+        const dpr = window.devicePixelRatio || 1;
+        const W = 240, H = 140;
+        c.width = W * dpr;
+        c.height = H * dpr;
+        c.style.width = W + "px";
+        c.style.height = H + "px";
+        const ctx = c.getContext("2d");
+        ctx.scale(dpr, dpr);
+        const cx = W / 2, cy = H - 6, R = 90;
         const norm = (score + 1) / 2;
         const accentColor = css("--accent");
         const posColor = css("--pos");
@@ -225,12 +233,12 @@ Outlook: Going forward, we expect robust tailwinds from our AI product line. In 
         $("traj-legend").innerHTML = `<span class="legend-raw">Score</span><span class="legend-smooth">Rolling Mean</span>`;
         const canvas = $("trajectory-canvas");
         const dpr = window.devicePixelRatio || 1;
-        canvas.width = canvas.offsetWidth * dpr;
-        canvas.height = 440;
+        const W = canvas.offsetWidth, H = 220;
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        canvas.style.height = H + "px";
         const ctx = canvas.getContext("2d");
         ctx.scale(dpr, dpr);
-
-        const W = canvas.offsetWidth, H = 220;
         const pL = 36, pR = 16, pT = 16, pB = 24;
         const pw = W - pL - pR, ph = H - pT - pB;
         const n = traj.scores.length;
@@ -319,8 +327,16 @@ Outlook: Going forward, we expect robust tailwinds from our AI product line. In 
 
     // ── Emotion radar ────────────────────────────────────────────────────
     function drawEmotion(profile) {
-        const c = $("emotion-canvas"), ctx = c.getContext("2d");
-        const W = c.width, H = c.height; ctx.clearRect(0, 0, W, H);
+        const c = $("emotion-canvas");
+        const dpr = window.devicePixelRatio || 1;
+        const W = 300, H = 280;
+        c.width = W * dpr;
+        c.height = H * dpr;
+        c.style.width = W + "px";
+        c.style.height = H + "px";
+        const ctx = c.getContext("2d");
+        ctx.scale(dpr, dpr);
+        ctx.clearRect(0, 0, W, H);
         const emotions = Object.entries(profile.emotion_distribution).filter(([k]) => k !== "neutral");
         const n = emotions.length; if (!n) return;
         const cx = W / 2, cy = H / 2, maxR = 100;
@@ -354,11 +370,14 @@ Outlook: Going forward, we expect robust tailwinds from our AI product line. In 
         ctx.strokeStyle = css("--accent"); ctx.lineWidth = 1.5; ctx.stroke();
 
         // Labels + dots
-        ctx.font = "500 10px Inter"; ctx.textAlign = "center";
+        ctx.font = "500 10px Inter";
         emotions.forEach(([label, val], i) => {
             const a = -Math.PI / 2 + i * step;
             const lx = cx + Math.cos(a) * (maxR + 16), ly = cy + Math.sin(a) * (maxR + 16);
             ctx.fillStyle = "hsla(220,8%,58%,0.7)";
+            if (Math.abs(Math.cos(a)) < 0.1) ctx.textAlign = "center";
+            else if (Math.cos(a) > 0) ctx.textAlign = "left";
+            else ctx.textAlign = "right";
             ctx.fillText(label, lx, ly + 3);
             const r = (val / maxVal) * maxR * 0.88;
             const dx = cx + Math.cos(a) * r, dy = cy + Math.sin(a) * r;
