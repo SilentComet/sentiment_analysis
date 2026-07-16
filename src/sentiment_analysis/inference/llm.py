@@ -81,7 +81,12 @@ class LLMInferenceEngine:
         async with self._semaphore:
             async for attempt in AsyncRetrying(
                 retry=retry_if_exception_type(
-                    (anthropic.RateLimitError, anthropic.APIConnectionError)
+                    (
+                        anthropic.RateLimitError,
+                        anthropic.APIConnectionError,
+                        json.JSONDecodeError,
+                        ValueError,
+                    )
                 ),
                 wait=wait_exponential(multiplier=1, min=2, max=60),
                 stop=stop_after_attempt(5),
@@ -103,33 +108,17 @@ class LLMInferenceEngine:
                         ],
                     )
 
-        raw = response.content[0].text.strip()
-        # Strip accidental markdown fences
-        raw = re.sub(
-            r"^```json\s*|^```\s*|```$", "", raw, flags=re.MULTILINE
-        ).strip()
+                    raw = response.content[0].text.strip()
+                    # Strip accidental markdown fences
+                    raw = re.sub(
+                        r"^```json\s*|^```\s*|```$", "", raw, flags=re.MULTILINE
+                    ).strip()
 
-        try:
-            data = json.loads(raw)
-        except json.JSONDecodeError as exc:
-            logger.error(f"LLM returned invalid JSON: {exc}\n{raw[:300]}")
-            # Graceful fallback
-            data = {
-                "sentiment_score": 0.0,
-                "sentiment_label": "neutral",
-                "dominant_emotion": "neutral",
-                "emotion_scores": {},
-                "has_sarcasm": False,
-                "has_corporate_speak": False,
-                "has_idiom": False,
-                "detected_phrases": [],
-                "verbatim_evidence": [],
-                "reasoning_steps": [
-                    "LLM output parse failure; defaulting to neutral."
-                ],
-                "confidence": 0.1,
-                "implicit_intent": None,
-            }
+                    try:
+                        data = json.loads(raw)
+                    except json.JSONDecodeError as exc:
+                        logger.error(f"LLM returned invalid JSON: {exc}\n{raw[:300]}")
+                        raise ValueError(f"LLM JSON parse failed: {exc}")
 
         # Clamp score to valid range
         data["sentiment_score"] = float(

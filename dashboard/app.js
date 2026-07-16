@@ -22,41 +22,6 @@ Strategic Realignment: We are rationalizing our go-to-market approach and creati
 
 Outlook: Going forward, we expect robust tailwinds from our AI product line. In the next two quarters, we project revenue growth of 15–20%. The ball is in our court to capitalize on these opportunities, and we are confident in our ability to deliver exceptional results. Product A, despite earlier challenges, is now positioned as a market leader with an outstanding roadmap ahead.`;
 
-    // ── Demo result ──────────────────────────────────────────────────────
-    const DEMO = {
-        document_metadata: { document_id: "demo-001", filename: "sample_earnings.txt", total_pages: 1, total_chunks: 5, total_tokens: 478, word_count: 189, language: "en", analyzed_at: new Date().toISOString(), processing_time_ms: 342.7, inference_route_distribution: { slm: 3, llm: 2 } },
-        overall_sentiment_score: 0.1842,
-        overall_sentiment_label: "neutral",
-        sentiment_trajectory: {
-            scores: [-0.35, 0.62, -0.28, -0.15, 0.48],
-            rolling_mean: [-0.35, 0.14, -0.003, 0.06, 0.17],
-            segments: [
-                { label: "intro", chunk_sequence_start: 0, chunk_sequence_end: 0, mean_sentiment: -0.35, trend: "stable", peak_score: -0.35, trough_score: -0.35 },
-                { label: "body", chunk_sequence_start: 1, chunk_sequence_end: 3, mean_sentiment: 0.063, trend: "falling", peak_score: 0.62, trough_score: -0.28 },
-                { label: "conclusion", chunk_sequence_start: 4, chunk_sequence_end: 4, mean_sentiment: 0.48, trend: "stable", peak_score: 0.48, trough_score: 0.48 }
-            ],
-            overall_trend: "improving", inflection_points: [1, 2, 4],
-            intro_sentiment: -0.35, conclusion_sentiment: 0.48, sentiment_delta: 0.83
-        },
-        aspect_analysis: [
-            { entity_text: "product a", entity_type: "PRODUCT", mention_count: 3, first_chunk_sequence: 1, last_chunk_sequence: 4, aspect_sentiment_score: 0.38, aspect_sentiment_label: "positive", sentiment_trajectory: [0.62, -0.28, 0.48], contradictions: [{ earlier_chunk_id: "c1", later_chunk_id: "c2", earlier_sentiment_score: 0.62, later_sentiment_score: -0.28, delta: 0.9, resolution_strategy: "recency", resolved_score: -0.28 }], chain_of_evidence: { claim_summary: "Sentiment toward 'product a' is positive.", supporting_quotes: [{ quote: "Product A received outstanding reviews from enterprise clients", chunk_id: "chunk_00001", chunk_sequence: 1, relevance_score: 0.92 }], reasoning_steps: ["Positive entity", "3 mentions", "Coverage: 78%"], hallucination_risk_score: 0.12, grounding_coverage: 0.78 }, sub_aspects: [] },
-            { entity_text: "ai product line", entity_type: "PRODUCT", mention_count: 1, first_chunk_sequence: 4, last_chunk_sequence: 4, aspect_sentiment_score: 0.55, aspect_sentiment_label: "positive", sentiment_trajectory: [0.55], contradictions: [], chain_of_evidence: { claim_summary: "Sentiment toward 'ai product line' is positive.", supporting_quotes: [{ quote: "we expect robust tailwinds from our AI product line", chunk_id: "chunk_00004", chunk_sequence: 4, relevance_score: 0.88 }], reasoning_steps: ["Positive forecast", "1 mention", "Coverage: 85%"], hallucination_risk_score: 0.08, grounding_coverage: 0.85 }, sub_aspects: [] }
-        ],
-        emotion_profile: { dominant_emotion: "anticipation", emotion_distribution: { joy: 0.14, sadness: 0.08, anger: 0.03, fear: 0.11, surprise: 0.04, disgust: 0.02, anticipation: 0.35, trust: 0.18, neutral: 0.05 } },
-        intent_classification: { primary_intent: "forecast", secondary_intents: ["deflect", "persuade"], confidence: 0.82, implicit_intent_notes: "Forward-looking language hedges past performance with external factors." },
-        detected_idioms: ["the ball is in your court"],
-        detected_corporate_speak: ["headwinds", "rightsizing", "synergies", "ecosystem", "mission-critical", "move the needle", "tailwinds", "leverage"],
-        sarcasm_detected: true,
-        document_level_evidence: { claim_summary: "The document has an overall neutral sentiment (score: 0.184), improving trajectory.", supporting_quotes: [{ quote: "Revenue declined by 8% year-over-year amid challenging macroeconomic conditions", chunk_id: "chunk_00000", chunk_sequence: 0, relevance_score: 0.85 }, { quote: "we are confident in our ability to deliver exceptional results", chunk_id: "chunk_00004", chunk_sequence: 4, relevance_score: 0.90 }], reasoning_steps: ["Claim: overall neutral sentiment", "2 supporting passages across 5 chunks", "Token-level grounding coverage: 72%", "Hallucination risk: 0.15 (LOW)"], hallucination_risk_score: 0.15, grounding_coverage: 0.72 },
-        chunk_results: [
-            { chunk_id: "chunk_00000", chunk_sequence: 0, page_number: 1, text_preview: "Q3 Earnings Report — FY2024. The quarter began under significant headwinds. Revenue declined by 8% year-over-year amid challenging macroeconomic conditio...", sentiment_score: -0.35, sentiment_label: "negative", dominant_emotion: "fear", emotion_scores: { fear: 0.3, sadness: 0.25, anticipation: 0.15, trust: 0.1, neutral: 0.2 }, complexity_score: 0.42, inference_route: "slm", inference_latency_ms: 28.4, has_sarcasm_signal: false, has_idiom_signal: false, has_corporate_speak: true, cultural_adjustments: ["Corporate speak 'headwinds' → obstacles / challenges", "Corporate speak 'rightsizing' → layoffs"], confidence: 0.78 },
-            { chunk_id: "chunk_00001", chunk_sequence: 1, page_number: 1, text_preview: "Product A received outstanding reviews from enterprise clients, with NPS scores reaching an all-time high of 72. Our engineering team has delivered a reco...", sentiment_score: 0.62, sentiment_label: "very_positive", dominant_emotion: "joy", emotion_scores: { joy: 0.45, trust: 0.25, anticipation: 0.15, neutral: 0.15 }, complexity_score: 0.18, inference_route: "slm", inference_latency_ms: 22.1, has_sarcasm_signal: false, has_idiom_signal: false, has_corporate_speak: false, cultural_adjustments: [], confidence: 0.91 },
-            { chunk_id: "chunk_00002", chunk_sequence: 2, page_number: 1, text_preview: "Oh great — just as we were gaining momentum, supply-chain disruptions rattled our hardware division. Product A's margins compressed sharply, and frankly t...", sentiment_score: -0.28, sentiment_label: "negative", dominant_emotion: "disgust", emotion_scores: { disgust: 0.25, anger: 0.2, sadness: 0.2, surprise: 0.15, neutral: 0.2 }, complexity_score: 0.72, inference_route: "llm", inference_latency_ms: 1284, has_sarcasm_signal: true, has_idiom_signal: false, has_corporate_speak: false, cultural_adjustments: [], confidence: 0.85 },
-            { chunk_id: "chunk_00003", chunk_sequence: 3, page_number: 1, text_preview: "We are rationalizing our go-to-market approach and creating synergies across the enterprise and SMB units. By leveraging our ecosystem and moving the nee...", sentiment_score: -0.15, sentiment_label: "neutral", dominant_emotion: "anticipation", emotion_scores: { anticipation: 0.35, trust: 0.2, neutral: 0.25, fear: 0.1, joy: 0.1 }, complexity_score: 0.65, inference_route: "llm", inference_latency_ms: 1157, has_sarcasm_signal: false, has_idiom_signal: false, has_corporate_speak: true, cultural_adjustments: ["'synergies' → cost-cutting via merger", "'ecosystem' → platform with lock-in", "'mission-critical' → very important", "'move the needle' → make measurable progress", "'leverage' → use strategically"], confidence: 0.79 },
-            { chunk_id: "chunk_00004", chunk_sequence: 4, page_number: 1, text_preview: "Going forward, we expect robust tailwinds from our AI product line. In the next two quarters, we project revenue growth of 15–20%. The ball is in our cou...", sentiment_score: 0.48, sentiment_label: "positive", dominant_emotion: "anticipation", emotion_scores: { anticipation: 0.4, joy: 0.2, trust: 0.25, neutral: 0.15 }, complexity_score: 0.38, inference_route: "slm", inference_latency_ms: 26, has_sarcasm_signal: false, has_idiom_signal: true, has_corporate_speak: true, cultural_adjustments: ["'tailwinds' → favourable conditions", "Idiom 'the ball is in your court' → your responsibility now", "Intent: forecast"], confidence: 0.87 }
-        ],
-        confidence_metrics: { overall_confidence: 0.82, chunk_coverage: 1.0, evidence_density: 0.72, model_agreement_score: null, sarcasm_detection_confidence: 0.90, uncertainty_flags: [] }
-    };
 
     // ── Refs ──────────────────────────────────────────────────────────────
     const $ = id => document.getElementById(id);
@@ -90,6 +55,9 @@ Outlook: Going forward, we expect robust tailwinds from our AI product line. In 
         const txt = btnGo.querySelector(".btn-text"), ldr = btnGo.querySelector(".btn-loader");
         const docText = input.value.trim();
         if (!docText) return;
+
+        // Clear previous state explicitly to prevent stale data display
+        results.hidden = true;
 
         txt.textContent = "Analyzing…"; ldr.hidden = false; btnGo.disabled = true;
         $("badge-status").textContent = "Processing"; $("badge-status").classList.add("active");
