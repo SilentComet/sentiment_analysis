@@ -1,4 +1,2 @@
-*.py
-pyproject.toml
-src/
+# .vercelignore
 tests/

@@ -88,6 +88,9 @@ Outlook: Going forward, we expect robust tailwinds from our AI product line. In 
     // ── Run ──────────────────────────────────────────────────────────────
     async function run() {
         const txt = btnGo.querySelector(".btn-text"), ldr = btnGo.querySelector(".btn-loader");
+        const docText = input.value.trim();
+        if (!docText) return;
+
         txt.textContent = "Analyzing…"; ldr.hidden = false; btnGo.disabled = true;
         $("badge-status").textContent = "Processing"; $("badge-status").classList.add("active");
         const prog = $("progress-bar"); prog.hidden = false;
@@ -95,16 +98,37 @@ Outlook: Going forward, we expect robust tailwinds from our AI product line. In 
         let p = 0;
         const tick = setInterval(() => { p = Math.min(p + Math.random() * 10, 90); fill.style.width = p + "%"; }, 180);
 
-        await new Promise(r => setTimeout(r, 1600));
-        clearInterval(tick); fill.style.width = "100%";
+        try {
+            const response = await fetch("/api/analyze", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text: docText })
+            });
 
-        setTimeout(() => {
-            results.hidden = false;
-            render(DEMO);
+            clearInterval(tick); fill.style.width = "100%";
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.detail || `Server error: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            setTimeout(() => {
+                results.hidden = false;
+                render(data);
+                txt.textContent = "Analyze"; ldr.hidden = true; btnGo.disabled = false;
+                $("badge-status").textContent = "Done"; prog.hidden = true; fill.style.width = "0%";
+                results.scrollIntoView({ behavior: "smooth", block: "start" });
+            }, 300);
+
+        } catch (error) {
+            clearInterval(tick); fill.style.width = "0%";
             txt.textContent = "Analyze"; ldr.hidden = true; btnGo.disabled = false;
-            $("badge-status").textContent = "Done"; prog.hidden = true; fill.style.width = "0%";
-            results.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 300);
+            $("badge-status").textContent = "Error";
+            prog.hidden = true;
+            alert("Analysis failed: " + error.message);
+        }
     }
 
     // ── Render ────────────────────────────────────────────────────────────
