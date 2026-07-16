@@ -249,6 +249,7 @@ body {
     animation: spin 0.5s linear infinite;
     vertical-align: middle; margin-left: 6px;
 }
+.btn-loader[hidden] { display: none !important; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 

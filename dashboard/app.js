@@ -99,10 +99,10 @@ Outlook: Going forward, we expect robust tailwinds from our AI product line. In 
         clearInterval(tick); fill.style.width = "100%";
 
         setTimeout(() => {
+            results.hidden = false;
             render(DEMO);
             txt.textContent = "Analyze"; ldr.hidden = true; btnGo.disabled = false;
             $("badge-status").textContent = "Done"; prog.hidden = true; fill.style.width = "0%";
-            results.hidden = false;
             results.scrollIntoView({ behavior: "smooth", block: "start" });
         }, 300);
     }
@@ -339,7 +339,7 @@ Outlook: Going forward, we expect robust tailwinds from our AI product line. In 
         ctx.clearRect(0, 0, W, H);
         const emotions = Object.entries(profile.emotion_distribution).filter(([k]) => k !== "neutral");
         const n = emotions.length; if (!n) return;
-        const cx = W / 2, cy = H / 2, maxR = 100;
+        const cx = W / 2, cy = H / 2, maxR = 85;
         const step = (Math.PI * 2) / n;
         const maxVal = Math.max(...emotions.map(([, v]) => v), 0.01);
 
@@ -374,7 +374,7 @@ Outlook: Going forward, we expect robust tailwinds from our AI product line. In 
         emotions.forEach(([label, val], i) => {
             const a = -Math.PI / 2 + i * step;
             const lx = cx + Math.cos(a) * (maxR + 16), ly = cy + Math.sin(a) * (maxR + 16);
-            ctx.fillStyle = "hsla(220,8%,58%,0.7)";
+            ctx.fillStyle = "hsla(220, 15%, 85%, 0.9)";
             if (Math.abs(Math.cos(a)) < 0.1) ctx.textAlign = "center";
             else if (Math.cos(a) > 0) ctx.textAlign = "left";
             else ctx.textAlign = "right";
