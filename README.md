@@ -23,7 +23,7 @@ An end-to-end sentiment analysis pipeline powered by local SLMs and Anthropic Cl
    ```
 
 2. **Set up Environment Variables**:
-   Create a `.env` file in the root directory (this file is ignored by Git).
+   Create a `.env` file in the root directory.
    ```
    ANTHROPIC_API_KEY=sk-ant-api03...
    ```
